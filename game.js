@@ -81,3 +81,18 @@ function rectUnion(r1, r2) {
 
   return new Rectangle(x, y, width, height);
 }
+
+function randomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
+
+// Giving proper structure to the game entities
+function Entity(position, speed, direction) {
+  this.position = position;
+  this.speed = speed;
+  this.direction = direction;
+  this.time = 0;
+  this.width = 5;
+  this.height = 5;
+  this.hp = 1;
+}
