@@ -96,3 +96,16 @@ function Entity(position, speed, direction) {
   this.height = 5;
   this.hp = 1;
 }
+
+Entity.prototype.update = function (dt) {
+  this.time += dt;
+};
+
+Entity.prototype.collisionRect = function () {
+  return new Rectangle(
+    this.position.x - this.width / 2,
+    this.position.y - this.width / 2,
+    this.width,
+    this.height
+  );
+};
