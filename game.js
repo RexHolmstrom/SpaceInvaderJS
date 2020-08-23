@@ -1,3 +1,5 @@
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 // 2nd Vectors Objects
 var Vector2d = function (x, y) {
   this.x = x;
@@ -72,4 +74,10 @@ function rectUnion(r1, r2) {
   if (r2 === undefined) {
     return r1;
   }
+  x = Math.min(r1.x, r2.x);
+  y = Math.min(r1.y, r2.y);
+  width = Math.max(r1.rigth(), r2.right()) - Math.min(r1.left(), r2.left());
+  height = Math.max(r1.bottom(), r2.bottom()) - Math.min(r1.top(), r2.top());
+
+  return new Rectangle(x, y, width, height);
 }
