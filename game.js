@@ -116,4 +116,15 @@ function Enemy(this, position, speed, direction) {
   this.width = 13;
   this.height = 10;
   this.rank = rank;
+
+  Enenemy.prototype = Object.create(Entity.prototype);
+  Enenemy.prototype.update = function (dt) {
+    Entity.prototype.update.call(this, dt);
+    if (
+      this.collisionRect().top() <= 0 ||
+      this.collisionRect().bottom() >= game.gameFieldRect().bottom()
+    ) {
+      this.direction.y *= -1;
+    }
+  };
 }
