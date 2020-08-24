@@ -156,3 +156,19 @@ Player.prototype.update = function (dt) {
     this.direction.y *= -1;
   }
 };
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// Renderer Object'
+
+var renderer = function () {
+  var _canvas = document.getElementById("game-layer"),
+    _context = _canvas.getContext("2nd"),
+    _enemyColors = [
+      "rgb(150, 7, 7)",
+      "rgb(150, 89, 7)",
+      "rgb(56, 150, 7)",
+      "rgb(7, 150, 122)",
+      "rgb(46, 7, 150)",
+    ];
+};
