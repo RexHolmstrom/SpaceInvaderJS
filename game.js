@@ -109,3 +109,11 @@ Entity.prototype.collisionRect = function () {
     this.height
   );
 };
+
+function Enemy(this, position, speed, direction) {
+  Entity.call(this, position, speed, direction);
+
+  this.width = 13;
+  this.height = 10;
+  this.rank = rank;
+}
