@@ -86,7 +86,10 @@ function randomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
 // Giving proper structure to the game entities
+
 function Entity(position, speed, direction) {
   this.position = position;
   this.speed = speed;
@@ -110,6 +113,10 @@ Entity.prototype.collisionRect = function () {
   );
 };
 
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// Enemy Objects
+
 function Enemy(this, position, speed, direction) {
   Entity.call(this, position, speed, direction);
 
@@ -128,3 +135,24 @@ function Enemy(this, position, speed, direction) {
     }
   };
 }
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// Player
+
+function player(position, speed, direction) {
+  Entity.call(this, position, speed, direction);
+
+  this.width = 20;
+  this.height = 10;
+}
+Player.prototype = Object.create(Entity.prototype);
+Player.prototype.update = function (dt) {
+  Entity.prototype.update.call(this, dt);
+  if (
+    this.collisionRect().top() <= 0 ||
+    this.collisionRect().bottom >= game.gameFieldRect().bottom()
+  ) {
+    this.direction.y *= -1;
+  }
+};
