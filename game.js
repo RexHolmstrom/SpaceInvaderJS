@@ -159,7 +159,7 @@ Player.prototype.update = function (dt) {
 
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
-// Renderer Object'
+// Renderer Object
 
 var renderer = (function () {
   var _canvas = document.getElementById("game-layer"),
@@ -205,3 +205,11 @@ var renderer = (function () {
     render: _render,
   };
 })();
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// Game Physics
+
+var physics = function () {
+  function _update(dt) {}
+};
