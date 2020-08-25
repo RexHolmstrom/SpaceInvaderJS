@@ -219,6 +219,7 @@ var physics = function () {
     for (i = entities.length - 1; i >= 0; i--) {
       e = entities[i];
       velocity = vectorScalarMultiply(e.direction, e.speed);
+      e.position = vectorAdd(e.position, vectorScalarMultiply(velocity, dt));
     }
   }
 };
