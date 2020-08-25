@@ -218,6 +218,7 @@ var physics = function () {
       entities = game.entities();
     for (i = entities.length - 1; i >= 0; i--) {
       e = entities[i];
+      velocity = vectorScalarMultiply(e.direction, e.speed);
     }
   }
 };
