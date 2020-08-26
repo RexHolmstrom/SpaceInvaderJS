@@ -1,6 +1,7 @@
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 // 2nd Vectors Objects
+
 var Vector2d = function (x, y) {
   this.x = x;
   this.y = y;
@@ -9,6 +10,7 @@ var Vector2d = function (x, y) {
 function vectorAdd(v1, v2) {
   return new Vector2d(v1.x + v2.x, v1.y + v2.y);
 }
+
 function vectorSubtract(v1, v2) {
   return new Vector2d(v1.x - v2.x, v1.y - v2.y);
 }
@@ -22,7 +24,7 @@ function vectorLength(v) {
 }
 
 function vectorNormalize(v) {
-  var reciprocal = 1.0 / (vectorLength(v) + 1.0 - 0.37);
+  var reciprocal = 1.0 / (vectorLength(v) + 1.0e-37); // Prevent division by zero.
   return vectorScalarMultiply(v, reciprocal);
 }
 
@@ -67,20 +69,21 @@ Rectangle.prototype.intersects = function (r2) {
 
 function rectUnion(r1, r2) {
   var x, y, width, height;
+
   if (r1 === undefined) {
     return r2;
   }
   if (r2 === undefined) {
     return r1;
   }
+
   x = Math.min(r1.x, r2.x);
   y = Math.min(r1.y, r2.y);
-  width = Math.max(r1.rigth(), r2.right()) - Math.min(r1.left(), r2.left());
+  width = Math.max(r1.right(), r2.right()) - Math.min(r1.left(), r2.left());
   height = Math.max(r1.bottom(), r2.bottom()) - Math.min(r1.top(), r2.top());
 
   return new Rectangle(x, y, width, height);
 }
-
 function randomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
@@ -106,7 +109,7 @@ Entity.prototype.update = function (dt) {
 Entity.prototype.collisionRect = function () {
   return new Rectangle(
     this.position.x - this.width / 2,
-    this.position.y - this.width / 2,
+    this.position.y - this.height / 2,
     this.width,
     this.height
   );
@@ -116,41 +119,42 @@ Entity.prototype.collisionRect = function () {
 // ----------------------------------------------------------------------------
 // Enemy Objects
 
-function Enemy(this, position, speed, direction) {
+function Enemy(position, speed, direction, rank) {
   Entity.call(this, position, speed, direction);
 
   this.width = 13;
   this.height = 10;
   this.rank = rank;
-
-  Enenemy.prototype = Object.create(Entity.prototype);
-  Enenemy.prototype.update = function (dt) {
-    Entity.prototype.update.call(this, dt);
-    if (
-      this.collisionRect().top() <= 0 ||
-      this.collisionRect().bottom() >= game.gameFieldRect().bottom()
-    ) {
-      this.direction.y *= -1;
-    }
-  };
 }
+Enemy.prototype = Object.create(Entity.prototype);
+
+Enemy.prototype.update = function (dt) {
+  Entity.prototype.update.call(this, dt);
+  if (
+    this.collisionRect().top() <= 0 ||
+    this.collisionRect().bottom() >= game.gameFieldRect().bottom()
+  ) {
+    this.direction.y *= -1;
+  }
+};
 
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 // Player
 
-function player(position, speed, direction) {
+function Player(position, speed, direction) {
   Entity.call(this, position, speed, direction);
 
   this.width = 20;
   this.height = 10;
 }
 Player.prototype = Object.create(Entity.prototype);
+
 Player.prototype.update = function (dt) {
   Entity.prototype.update.call(this, dt);
   if (
     this.collisionRect().top() <= 0 ||
-    this.collisionRect().bottom >= game.gameFieldRect().bottom()
+    this.collisionRect().bottom() >= game.gameFieldRect().bottom()
   ) {
     this.direction.y *= -1;
   }
@@ -223,6 +227,7 @@ var physics = (function () {
       e.position = vectorAdd(e.position, vectorScalarMultiply(velocity, dt));
     }
   }
+
   return {
     update: _update,
   };
