@@ -255,5 +255,14 @@ var game = function () {
     this.addEntity = new Enemy(new Vector2d(80, 25), 15, new Vector2d(0, 1));
     this.addEntity = new Enemy(new Vector2d(120, 25), 25, new Vector2d(0, -1));
     this.addEntity = new Enemy(new Vector2d(140, 25), 30, new Vector2d(0, -1));
+
+    if (!_started) {
+      window.requestAnimationFrame(this.update.bind(this));
+      _started = true;
+    }
+  }
+
+  function addEntity(entity) {
+    _entities.push(entity);
   }
 };
