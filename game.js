@@ -264,5 +264,25 @@ var game = function () {
 
   function addEntity(entity) {
     _entities.push(entity);
+    if (entity instanceof Player) {
+      _player = entity;
+    }
+    if (entity instanceof Enemy) {
+      _enemies.push(entity);
+    }
+  }
+
+  function _removeEntities(entities) {
+    if (!entities) return;
+
+    function isNotInEntities(item) {
+      return !entities.includes(item);
+    }
+    _entities = entities.filter(isNotInEntities);
+    _enemies = enemies.filter(isNotInEntities);
+
+    if (entities.include(_player)) {
+      _player = undefined;
+    }
   }
 };
