@@ -232,7 +232,7 @@ var physics = (function () {
 // ----------------------------------------------------------------------------
 // Game
 
-var game = function () {
+var game = (function () {
   var _entities,
     _enemies,
     _player,
@@ -244,17 +244,12 @@ var game = function () {
     _enemies = [];
     _gameFieldRect = new Rectangle(0, 0, 300, 180);
 
-    this.addEntity = new Player(
-      new Vector2d(100, 175),
-      25,
-      new Vector2d(0, -1)
-    );
-
-    this.addEntity = new Enemy(new Vector2d(20, 25), 20, new Vector2d(0, 1));
-    this.addEntity = new Enemy(new Vector2d(50, 25), 10, new Vector2d(0, 1));
-    this.addEntity = new Enemy(new Vector2d(80, 25), 15, new Vector2d(0, 1));
-    this.addEntity = new Enemy(new Vector2d(120, 25), 25, new Vector2d(0, -1));
-    this.addEntity = new Enemy(new Vector2d(140, 25), 30, new Vector2d(0, -1));
+    this.addEntity(new Player(new Vector2d(100, 175), 25, new Vector2d(0, -1)));
+    this.addEntity(new Enemy(new Vector2d(20, 25), 20, new Vector2d(0, 1), 0));
+    this.addEntity(new Enemy(new Vector2d(50, 25), 10, new Vector2d(0, 1), 1));
+    this.addEntity(new Enemy(new Vector2d(80, 25), 15, new Vector2d(0, 1), 2));
+    this.addEntity(new Enemy(new Vector2d(120, 25), 25, new Vector2d(0, 1), 3));
+    this.addEntity(new Enemy(new Vector2d(140, 25), 30, new Vector2d(0, 1), 4));
 
     if (!_started) {
       window.requestAnimationFrame(this.update.bind(this));
@@ -262,11 +257,13 @@ var game = function () {
     }
   }
 
-  function addEntity(entity) {
+  function _addEntity(entity) {
     _entities.push(entity);
+
     if (entity instanceof Player) {
       _player = entity;
     }
+
     if (entity instanceof Enemy) {
       _enemies.push(entity);
     }
@@ -278,11 +275,45 @@ var game = function () {
     function isNotInEntities(item) {
       return !entities.includes(item);
     }
-    _entities = entities.filter(isNotInEntities);
-    _enemies = enemies.filter(isNotInEntities);
+    _entities = _entities.filter(isNotInEntities);
+    _enemies = _enemies.filter(isNotInEntities);
 
-    if (entities.include(_player)) {
+    if (entities.includes(_player)) {
       _player = undefined;
     }
   }
-};
+
+  function _update() {
+    var dt = 1 / 60; // Fixed 60 frames per second time step
+    physics.update(dt);
+
+    var i;
+    for (i = _entities.length - 1; i >= 0; i--) {
+      _entities[i].update(dt);
+    }
+
+    renderer.render(dt);
+
+    window.requestAnimationFrame(this.update.bind(this));
+  }
+
+  return {
+    start: _start,
+    update: _update,
+    addEntity: _addEntity,
+    entities: function () {
+      return _entities;
+    },
+    enemies: function () {
+      return _enemies;
+    },
+    player: function () {
+      return _player;
+    },
+    gameFieldRect: function () {
+      return _gameFieldRect;
+    },
+  };
+})();
+
+game.start();
