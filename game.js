@@ -9,7 +9,6 @@ var Vector2d = function (x, y) {
 function vectorAdd(v1, v2) {
   return new Vector2d(v1.x + v2.x, v1.y + v2.y);
 }
-
 function vectorSubtract(v1, v2) {
   return new Vector2d(v1.x - v2.x, v1.y - v2.y);
 }
@@ -244,5 +243,17 @@ var game = function () {
     _entities = [];
     _enemies = [];
     _gameFieldRect = new Rectangle(0, 0, 300, 180);
+
+    this.addEntity = new Player(
+      new Vector2d(100, 175),
+      25,
+      new Vector2d(0, -1)
+    );
+
+    this.addEntity = new Enemy(new Vector2d(20, 25), 20, new Vector2d(0, 1));
+    this.addEntity = new Enemy(new Vector2d(50, 25), 10, new Vector2d(0, 1));
+    this.addEntity = new Enemy(new Vector2d(80, 25), 15, new Vector2d(0, 1));
+    this.addEntity = new Enemy(new Vector2d(120, 25), 25, new Vector2d(0, -1));
+    this.addEntity = new Enemy(new Vector2d(140, 25), 30, new Vector2d(0, -1));
   }
 };
