@@ -228,3 +228,21 @@ var physics = (function () {
     update: _update,
   };
 })();
+
+// ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+// Game
+
+var game = function () {
+  var _entities,
+    _enemies,
+    _player,
+    _gameFieldRect,
+    _started = false;
+
+  function _start() {
+    _entities = [];
+    _enemies = [];
+    _gameFieldRect = new Rectangle(0, 0, 300, 180);
+  }
+};
